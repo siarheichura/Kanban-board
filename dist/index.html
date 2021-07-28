@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/main.2292e5a4.css">
+    <script src="/scripts.bcf3243b.js" type="module" defer=""></script>
+    <title>Kanban</title>
+<script src="/main.2292e5a4.js"></script></head>
+
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <header class="header">
+                <h1 class="header__title">
+                    Kanban board
+                    <div class="clock">
+                        <p class="clock__hours"></p>
+                        <p class="clock__separator">:</p>
+                        <p class="clock__minutes"></p>
+                    </div>
+                </h1>
+                <span class="header__text">by GrayWolf’sTeam</span>
+            </header>
+            <main class="main">
+                <div class="column column--white column-todo">
+                    <div class="column__heading">
+                        <h2 class="column__title">
+                            Спіс спраў
+                            <div class="column__badge column__badge--red todo-badge"></div>
+                        </h2>
+                        <div class="column__buttons">
+                            <button class="column__button column__button--deleteAll column__button--deleteAll-red"></button>
+                            <button class="column__button column__button--addTodo"></button>
+                        </div>
+                    </div>
+                    <div class="column__card-wrapper" id="todo"></div>
+                </div>
+                <div class="column column--red column-progress">
+                    <div class="column__heading">
+                        <h2 class="column__title">
+                            У працэсе
+                            <div class="column__badge column__badge--white progress-badge"></div>
+                        </h2>
+                        <button class="column__button column__button--deleteAll column__button--deleteAll-white"></button>
+                    </div>
+                    <div class="column__card-wrapper" id="progress"></div>
+                </div>
+                <div class="column column--white column-done">
+                    <div class="column__heading">
+                        <h2 class="column__title">
+                            Зроблена
+                            <div class="column__badge column__badge--red done-badge"></div>
+                        </h2>
+                        <button class="column__button column__button--deleteAll column__button--deleteAll-red"></button>
+                    </div>
+                    <div class="column__card-wrapper" id="done"></div>
+                </div>
+            </main>
+            <footer class="footer">
+                <p class="footer__copyright">&copy Directed by GrayWolf’sTeam</p>
+            </footer>
+            <!-- Модалка для добавления/изменения карточки -->
+            <div class="modal modal-add d-none">
+                <div class="modal__header">
+                    <h5 class="modal__title"></h5>
+                    <button type="button" class="modal__btn-close modal__close"></button>
+                </div>
+                <div class="modal__body">
+                    <span class="modal__heading">Загаловак</span>
+                    <input class="modal__input-heading" type="text">
+                    <span class="modal__comment">Каментарый</span>
+                    <input class="modal__input-comment" type="text">
+                    <span class="modal__username">Выканауца</span>
+                    <select class="modal__dropdown">
+                        <option class="dropdown__option" selected="" disabled="">Выберыце выканауца</option>
+                    </select>
+                </div>
+                <div class="modal__footer">
+                    <button type="button" class="modal__btn-close--footer modal__close">Зачыніць</button>
+                    <button type="button" class="modal__btn--save">Захаваць змены</button>
+                </div>
+            </div>
+            <!-- Тост для лимита 6 элементов в средней колонке -->
+            <div class="toast d-none">
+                    <h5 class="toast__title">Нельга дадаць больш за 6 спраў!</h5>
+                    <img class="toast__img" src="/geegan_mem.3317a5ed.png" alt="geegan_mem">
+                    <button type="button" class="toast__btn-close modal__btn-close modal__close"></button>
+            </div>
+            <!-- Модалка для подтверждения удаления -->
+            <div class="modal-del d-none">
+                    <h5 class="modal-del__title">Вы ўпэўненыя?</h5>
+                <div class="modal-del__btns">
+                    <button type="button" class="modal__btn--save">Так</button>
+                    <button type="button" class="modal__btn-close--footer modal__close">Не</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio class="geegun" src="/geegun.123a56ad.mp3"></audio>
+</body>
+</html>

@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'Clock';
+    src: url('../../fonts/CrystalRevived.otf');
+}
+
+.clock {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 90px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 25px;
+    font-family: 'Clock';
+    color: #CC0000;
+    background: url('../../img/icons/red/clock.svg') no-repeat center left;
+
+    &__separator {
+        padding-bottom: 10px;
+        margin: 0 3px;
+        font-family: 'Clock';
+        font-size: 28px;
+    }
+}
