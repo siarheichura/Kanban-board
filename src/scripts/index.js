@@ -3,6 +3,8 @@ import { printCards, displayUser } from "./Card";
 import { changeModalTitle, toggleModal, initModalListeners, initModalDeleteListeners } from "./modal";
 import { Clock } from "./clock";
 
+import { Modal } from "./modal";
+
 // Data base
 export let DB;
 // Columns
@@ -16,7 +18,7 @@ const modalTitle = document.querySelector(".modal__title");
 const modalTitleInput = document.querySelector(".modal__input-heading");
 const modalDescriptionInput = document.querySelector(".modal__input-comment");
 const modalUsernameDrop = document.querySelector(".modal__dropdown");
-const modalDeleteAll = document.querySelector(".modal-del");
+const modalConfirmDelete = document.querySelector(".modal-confirm-del");
 // Toast
 const toast = document.querySelector(".toast");
 // Audio
@@ -28,7 +30,7 @@ const app = () => {
     new Clock().start()
     bindColumnHandlers()
     initModalListeners(modalAdd, DB, modalTitleInput, modalDescriptionInput, modalUsernameDrop);
-    initModalDeleteListeners(modalDeleteAll);
+    initModalDeleteListeners(modalConfirmDelete);
     displayUser(modalUsernameDrop);
 }
 
@@ -43,7 +45,7 @@ const initColumnHandler = (event, column) => {
         if(column.classList.contains('column-todo')) {
             DB.todo.length = 0;
         } else if(column.classList.contains('column-progress')) {
-            toggleModal(modalDeleteAll);
+            toggleModal(modalConfirmDelete);
         } else if(column.classList.contains('column-done')) {
             DB.done.length = 0;
         }

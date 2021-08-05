@@ -1,4 +1,4 @@
-.modal-del {
+.modal-confirm-del {
     position: absolute;
     top: 40%;
     left: 35%;
@@ -10,8 +10,6 @@
     background: #ffffff;
     color: rgb(171, 15, 15);
     border-radius: 10px;
-    -webkit-box-shadow: 4px 8px 39px 3000px rgba(0, 0, 0, 0.84);
-    -moz-box-shadow: 4px 8px 39px 3000px rgba(0, 0, 0, 0.84);
     box-shadow: 4px 8px 39px 3000px rgba(0, 0, 0, 0.84);
 
     &__title {
