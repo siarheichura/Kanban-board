@@ -1,17 +1,17 @@
-import { getUsersList } from "./usersAPI";
+import { DB } from "./index.js"
 
 export function Card([title, description, username]) {
-  this.title = title;
-  this.description = description;
-  this.username = username;
-  this.themeIsRed = true
-  this.date = new Date().toLocaleDateString();
-  this.time = new Date().toLocaleTimeString();
-  this.id = Math.random().toString(36).substr(2, 9)
-  this.isEditable = true
+    this.title = title
+    this.description = description
+    this.username = username
+    this.themeIsRed = true
+    this.date = new Date().toLocaleDateString()
+    this.time = new Date().toLocaleTimeString()
+    this.id = Math.random().toString(36).substr(2, 9)
+    this.isEditable = true
 }
 
-export const getCardHtml = ({title, description, username, themeIsRed, date, time, id, isEditable}) => {
+export const getCardTemplate = ({title, description, username, themeIsRed, date, time, id, isEditable}) => {
   let theme = themeIsRed ? 'red' : 'white'
   return `<div class="card card--${theme}" id="${id}">
                 <div class="card__heading">
@@ -35,11 +35,4 @@ export const getCardHtml = ({title, description, username, themeIsRed, date, tim
             </div>`
 }
 
-export const printCards = (data, cardList) => data[cardList.id].map(getCardHtml).join('')
-
-export const displayUser = (list) => {
-  getUsersList().then(userlist => userlist.forEach(user => {
-    let option = new Option(user.name, `${user.name}`)
-    list.append(option)
-  }))
-}
+export const printCards = (cardList) => DB[cardList.id].map(getCardTemplate).join('')
