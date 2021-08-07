@@ -1,6 +1,6 @@
 import { getUsersList } from "./usersAPI";
 
-export function Card(title, description, username) {
+export function Card([title, description, username]) {
   this.title = title;
   this.description = description;
   this.username = username;
@@ -35,7 +35,7 @@ export const getCardHtml = ({title, description, username, themeIsRed, date, tim
             </div>`
 }
 
-export const printCards = (data, cardList) => data[cardList.id].map(card => getCardHtml(card)).join('')
+export const printCards = (data, cardList) => data[cardList.id].map(getCardHtml).join('')
 
 export const displayUser = (list) => {
   getUsersList().then(userlist => userlist.forEach(user => {

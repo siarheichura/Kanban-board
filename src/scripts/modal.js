@@ -5,78 +5,62 @@ import { DB, render } from "./index";
 export class Modal {
   constructor(modal) {
     this.modal = modal
+    this.inputs = modal.querySelectorAll('.modal__input')
+    this.title = modal.querySelector('.modal__title')
   }
 
   print() {
-    this.modal.classList.add('d-none')
-  }
-
-  close() {
     this.modal.classList.remove('d-none')
   }
 
-  clearInputs(...inputs) {
-    inputs.forEach(input => input.value = '')
+  close() {
+    this.modal.classList.add('d-none')
+    this.#clearInputs()
   }
-}
 
-export const initModalAddListeners = (modal, data, ...inputs) => {
-  modal.addEventListener("click", (event) => {
-    let { target } = event;
-    if (target.classList.contains("modal__close")) {
-      new Modal(modal).close(modal)
-      new Modal(modal).clearInputs(...inputs)
-      // toggleModal(modal);
-      // clearInputs(...inputs);
-    } else if (target.classList.contains("modal__btn--save")) {
-      data.todo.push(new Card(inputs[0].value, inputs[1].value, inputs[2].value));
-      clearInputs(...inputs);
-      toggleModal(modal);
-      setLocalStorage(data);
-      render();
-    }
-  });
-}
+  setTitle(titleText) {
+    this.title.innerText = titleText
+  }
 
+  #clearInputs() {
+    this.inputs.forEach(input => input.value = '')
+  }
 
-export const initModalListeners = (modal, data, ...inputs) => {
-  modal.addEventListener("click", (event) => {
-    let { target } = event;
-    if (target.classList.contains("modal__close")) {
-      toggleModal(modal);
-      clearInputs(...inputs);
-    } else if (target.classList.contains("modal__btn--save")) {
-      data.todo.push(new Card(inputs[0].value, inputs[1].value, inputs[2].value));
-      clearInputs(...inputs);
-      toggleModal(modal);
-      setLocalStorage(data);
-      render();
-    }
-  });
-}
+  #getInputsValue() {
+    let inputValues = []
+    this.inputs.forEach(input => inputValues.push(input.value))
+    return inputValues
+  }
 
-export const changeModalTitle = (text, modalTitle) => {
-  modalTitle.innerText = text;
-}
+  #pushInputValuesToDataBase() {
+    DB.todo.push(new Card(this.#getInputsValue()))
+  }
 
-const clearInputs = (...inputs) => {
-  inputs.forEach((input) => (input.value = ""));
-}
+  initListeners() {
+    this.modal.addEventListener('click', event => {
+      let { target } = event
+      if (target.classList.contains('modal__close')) {
+        this.close()
+      } else if (target.classList.contains("modal__btn--save")) {
+        this.#pushInputValuesToDataBase()
+        this.close()
+        setLocalStorage(DB)
+        render()
+      }
+    })
+  }
 
-export const toggleModal = (modal) => {
-  modal.classList.toggle("d-none");
-}
-
-export const initModalDeleteListeners = (modal) => {
-  modal.addEventListener("click", (event) => {
-    let { target } = event;
-    if (target.classList.contains("modal__btn-close--footer")) {
-      toggleModal(modal);
-    } else if (target.classList.contains("modal__btn--save")) {
-      DB.progress.length = 0;
-      setLocalStorage(DB);
-      render();
-      toggleModal(modal);
-    }
-  });
+  initConfirmListeners() {
+    this.modal.addEventListener('click', event => {
+      let { target } = event
+      if (target.classList.contains("modal__btn-close--footer")) {
+        this.close()
+      } else if (target.classList.contains("modal__btn--save")) {
+        DB.progress.length = 0;
+        this.close()
+        setLocalStorage(DB);
+        render();
+      }
+    })
+  }
 }

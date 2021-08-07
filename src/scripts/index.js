@@ -1,8 +1,6 @@
 import { getLocalStorage, setLocalStorage } from "./storageAPI";
 import { printCards, displayUser } from "./Card";
-import { changeModalTitle, toggleModal, initModalListeners, initModalDeleteListeners } from "./modal";
 import { Clock } from "./clock";
-
 import { Modal } from "./modal";
 
 // Data base
@@ -13,14 +11,13 @@ const columnBadges = document.querySelectorAll(".column__badge");
 // Card lists
 const cardLists = document.querySelectorAll(".column__card-wrapper");
 // Modal
-const modalAdd = document.querySelector(".modal-add");
-const modalTitle = document.querySelector(".modal__title");
+const modalAdd = new Modal(document.querySelector('.modal-add'))
+const modalDelteConfirm = new Modal(document.querySelector('.modal-confirm-del'))
+const toastLimit = new Modal(document.querySelector('.toast'))
+// ModalAdd inputs
 const modalTitleInput = document.querySelector(".modal__input-heading");
 const modalDescriptionInput = document.querySelector(".modal__input-comment");
 const modalUsernameDrop = document.querySelector(".modal__dropdown");
-const modalConfirmDelete = document.querySelector(".modal-confirm-del");
-// Toast
-const toast = document.querySelector(".toast");
 // Audio
 const audioGeegun = document.querySelector(".geegun");
 
@@ -29,8 +26,8 @@ const app = () => {
     render();
     new Clock().start()
     bindColumnHandlers()
-    initModalListeners(modalAdd, DB, modalTitleInput, modalDescriptionInput, modalUsernameDrop);
-    initModalDeleteListeners(modalConfirmDelete);
+    modalAdd.initListeners()
+    modalDelteConfirm.initConfirmListeners()
     displayUser(modalUsernameDrop);
 }
 
@@ -39,13 +36,13 @@ document.addEventListener("DOMContentLoaded", app);
 const initColumnHandler = (event, column) => {
     let { target } = event
     if(target.classList.contains("column__button--addTodo")) {
-        changeModalTitle("Дадаць новую справу", modalTitle);
-        toggleModal(modalAdd);
+        modalAdd.print()        
+        modalAdd.setTitle('Дадаць новую справу')
     } else if(target.classList.contains("column__button--deleteAll")) {
         if(column.classList.contains('column-todo')) {
             DB.todo.length = 0;
         } else if(column.classList.contains('column-progress')) {
-            toggleModal(modalConfirmDelete);
+            modalDelteConfirm.print()
         } else if(column.classList.contains('column-done')) {
             DB.done.length = 0;
         }
@@ -72,8 +69,9 @@ const initCardListListeners = (cardList) => {
             setLocalStorage(DB);
             render();
         } else if (target.classList.contains("card__edit-btn")) {
-            toggleModal(modalAdd);
-            changeModalTitle("Змянiць справу", modalTitle);
+            modalAdd.print()
+            modalAdd.setTitle('Змянiць справу')
+            modalAdd.initListeners()
             modalTitleInput.value = todo[index].title;
             modalDescriptionInput.value = todo[index].description;
             modalUsernameDrop.value = todo[index].username;
@@ -84,9 +82,9 @@ const initCardListListeners = (cardList) => {
             if (cardList.id === 'todo') {
                 if (progress.length > 5) {
                     audioGeegun.play();
-                    toggleModal(toast);
+                    toastLimit.print()
                     setTimeout(() => {
-                        toggleModal(toast)
+                        toastLimit.close()
                     }, 5000);
                 } else {
                     todo[index].themeIsRed = !todo[index].themeIsRed
